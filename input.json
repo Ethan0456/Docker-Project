@@ -1,0 +1,35 @@
+{
+    "os": "ubuntu:latest",
+    "dockerfile": "Dockerfile",
+    "buildargs": {
+        "ARG1": "value1",
+        "ARG2": "value2"
+    },
+    "tag": "my-image:latest",
+    "name": "my-container",
+    "command": "/bin/bash",
+    "ports": {
+        "80/tcp": 8080,
+        "443/tcp": 8443
+    },
+    "environment": {
+        "ENV_VAR1": "value1",
+        "ENV_VAR2": "value2"
+    },
+    "volumes": {
+        "/host/path": {
+            "bind": "/container/path",
+            "mode": "rw"
+        }
+    },
+    "packages": [
+        "curl",
+        "wget",
+        "nano"
+    ],
+    "libraries": [
+        "numpy",
+        "pandas",
+        "matplotlib"
+    ]
+}
