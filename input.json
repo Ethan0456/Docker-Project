@@ -5,8 +5,8 @@
         "ARG1": "-d .",
         "ARG2": ""
     },
-    "tag": "my-image:latest",
-    "name": "my-container",
+    "tag": "my-ubuntu-image:latest",
+    "name": "my-ubuntu-container",
     "command": "/bin/bash",
     "path": ".",
     "ports": {
@@ -14,8 +14,7 @@
         "443/tcp": 8443
     },
     "environment": {
-        "ENV_VAR1": "value1",
-        "ENV_VAR2": "value2"
+        "ENV_VAR1": "EXPORT SHELL=/bin/bash"
     },
     "volumes": {
         "/host/path": {

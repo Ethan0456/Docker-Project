@@ -1,5 +1,5 @@
 import json
-import dockerfile_parse
+import docker
 
 # Load configuration from JSON file
 with open('input.json', 'r') as f:
@@ -12,29 +12,29 @@ client = docker.from_env()
 image, logs = client.images.build(
     path=config['path'],
     dockerfile=config['dockerfile'],
-    buildargs=config['buildargs'],
+    # buildargs=config['buildargs'],
     tag=config['tag'],
     rm=True,
 )
 
 # Start Docker container
-container = client.containers.run(
-    image=image.tags[0],
-    command=config['command'],
-    detach=True,
-    name=config['name'],
-    ports=config['ports'],
-    environment=config['environment'],
-    volumes=config['volumes']
-)
+# container = client.containers.run(
+#     image=image.tags[0],
+#     command=config['command'],
+#     detach=True,
+#     name=config['name'],
+#     ports=config['ports'],
+#     environment=config['environment'],
+#     volumes=config['volumes']
+# )
 
-# Install packages and libraries
-for package in config['packages']:
-    container.exec_run(f'apt-get install -y {package}')
+# # Install packages and libraries
+# for package in config['packages']:
+#     container.exec_run(f'apt-get install -y {package}')
 
-for library in config['libraries']:
-    container.exec_run(f'pip install {library}')
+# for library in config['libraries']:
+#     container.exec_run(f'pip install {library}')
 
-# Stop and remove Docker container
-container.stop()
-container.remove()
+# # Stop and remove Docker container
+# container.stop()
+# container.remove()
