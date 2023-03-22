@@ -1,13 +1,14 @@
 {
     "os": "ubuntu:latest",
-    "dockerfile": "Dockerfile",
+    "dockerfile": "./Dockerfile",
     "buildargs": {
-        "ARG1": "value1",
-        "ARG2": "value2"
+        "ARG1": "-d .",
+        "ARG2": ""
     },
     "tag": "my-image:latest",
     "name": "my-container",
     "command": "/bin/bash",
+    "path": ".",
     "ports": {
         "80/tcp": 8080,
         "443/tcp": 8443

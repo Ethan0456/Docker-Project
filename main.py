@@ -1,8 +1,8 @@
-import docker
 import json
+import dockerfile_parse
 
 # Load configuration from JSON file
-with open('config.json', 'r') as f:
+with open('input.json', 'r') as f:
     config = json.load(f)
 
 # Create Docker client
@@ -10,11 +10,11 @@ client = docker.from_env()
 
 # Build Docker image
 image, logs = client.images.build(
-    path=config['os'],
+    path=config['path'],
     dockerfile=config['dockerfile'],
     buildargs=config['buildargs'],
     tag=config['tag'],
-    rm=True
+    rm=True,
 )
 
 # Start Docker container
