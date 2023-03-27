@@ -1,8 +1,9 @@
 {
     "os": "ubuntu:latest",
     "dockerfile": "./Dockerfile",
+    "workdir":"/app",
     "buildargs": {
-        "ARG1": "-d .",
+        "ARG1": "",
         "ARG2": ""
     },
     "tag": "my-ubuntu-image:latest",
@@ -10,8 +11,8 @@
     "command": "/bin/bash",
     "path": ".",
     "ports": {
-        "80/tcp": 8080,
-        "443/tcp": 8443
+        "80": 8080,
+        "443": 8443
     },
     "environment": {
         "ENV_VAR1": "EXPORT SHELL=/bin/bash"
@@ -23,13 +24,13 @@
         }
     },
     "packages": [
-        "curl",
-        "wget",
-        "nano"
+        "python3",
+        "python3-pip",
+        "neofetch"
     ],
     "libraries": [
         "numpy",
-        "pandas",
+        "pywal",
         "matplotlib"
     ]
 }

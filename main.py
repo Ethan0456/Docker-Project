@@ -1,19 +1,43 @@
 import json
 import docker
 
+
+def writeToDockerFile(dockerfile, str):
+    dockerfile.write(str)
+    dockerfile.write('\n')
+    
+
+def createDockerFile(config):
+    with open('Dockerfile', 'w') as dockerfile:
+        # Mandatory Lines
+        writeToDockerFile(dockerfile,f"FROM {config['os']}")
+        writeToDockerFile(dockerfile,f"WORKDIR {config['workdir']}")
+        writeToDockerFile(dockerfile,f"RUN apt update")
+
+        # writeToDockerFile(dockerfile,f"EXPOSE {[i for i in config['ports']]}")
+        writeToDockerFile(dockerfile,f"")
+
+        # Install Packages
+        for package in config['packages']:
+            writeToDockerFile(dockerfile,f"RUN apt install -y {package}")
+
+        writeToDockerFile(dockerfile,f"")
+        # Install Libraries
+        for library in config['libraries']:
+            writeToDockerFile(dockerfile,f"RUN pip install {library}")
+
+
+
 with open('input.json', 'r') as f:
     config = json.load(f)
 
+# Get Instance
 client = docker.from_env()
 
-with open('Dockerfile','w') as dfile:
-    dfile.write(f"FROM {config['os']}\n")
-    dfile.write(f"WORKDIR /app\n")
-    dfile.write(f'RUN apt update && apt install -y python3 python3-pip\n')
-    for program in config['libraries']:
-        dfile.write(f"RUN pip install {program}")
-        dfile.write(f'\n')
+createDockerFile(config)
 
+# Create New Dockerfile according to User Input
+# Generate Image
 image, logs = client.images.build(
     path=config['path'],
     dockerfile=config['dockerfile'],
