@@ -1,23 +1,27 @@
 import json
 import docker
 
-# Load configuration from JSON file
 with open('input.json', 'r') as f:
     config = json.load(f)
 
-# Create Docker client
 client = docker.from_env()
 
-# Build Docker image
+with open('Dockerfile','w') as dfile:
+    dfile.write(f"FROM {config['os']}\n")
+    dfile.write(f"WORKDIR /app\n")
+    dfile.write(f'RUN apt update && apt install -y python3 python3-pip\n')
+    for program in config['libraries']:
+        dfile.write(f"RUN pip install {program}")
+        dfile.write(f'\n')
+
 image, logs = client.images.build(
     path=config['path'],
     dockerfile=config['dockerfile'],
-    # buildargs=config['buildargs'],
     tag=config['tag'],
     rm=True,
 )
 
-# Start Docker container
+#
 # container = client.containers.run(
 #     image=image.tags[0],
 #     command=config['command'],
@@ -28,13 +32,8 @@ image, logs = client.images.build(
 #     volumes=config['volumes']
 # )
 
-# # Install packages and libraries
 # for package in config['packages']:
 #     container.exec_run(f'apt-get install -y {package}')
 
 # for library in config['libraries']:
 #     container.exec_run(f'pip install {library}')
-
-# # Stop and remove Docker container
-# container.stop()
-# container.remove()
