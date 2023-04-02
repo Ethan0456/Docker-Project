@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Form</title>
+</head>
+<body>
+    <form>
+        <h2>Base Image</h2>
+        <input type="radio" id="base-ubuntu" name="ubuntu" value="ubuntu">
+        <label for="base-ubuntu">Ubuntu</label><br>
+
+        <input type="radio" id="base-debian" name="debian" value="debian">
+        <label for="base-debian">Debian</label><br>
+
+        <h2>Tag Name for Image</h2>
+        <input type="textbox" id="tag" name="tag" value="custom-name">
+
+        <h2>Working Directory</h2>
+        <input type="textbox" id="workdir" name="workdir" value="/app">
+
+        <h2>Libraries</h2>
+        <input type="checkbox" id="numpy" name="libraries" value="numpy">
+        <label for="numpy">numpy</label><br>
+
+        <input type="checkbox" id="pandas" name="libraries" value="pandas">
+        <label for="option2">pandas</label><br>
+
+        <h2>Packages</h2>
+        <input type="checkbox" id="neofetch" name="packages" value="neofetch">
+        <label for="neofetch">neofetch</label><br>
+
+        <input type="checkbox" id="python3" name="packages" value="python3">
+        <label for="python3">python3</label><br>
+
+        <input type="checkbox" id="python3-pip" name="packages" value="python3-pip">
+        <label for="python3-pip">python3-pip</label><br>
+
+
+        <button type="generateImage" onclick="generateJson()">Generate Image</button>
+    </form>
+
+    <script>
+
+        function sendJsonToBackEnd(data) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/process_json', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    alert(response.message);
+                }
+            };
+            xhr.send(JSON.stringify(data));
+        }
+
+        function generateJson() {
+            // Get selected options
+            var base_image = document.getElementById('base-ubuntu').checked ? 'ubuntu:latest' : 'debian:latest'
+
+            var libraries = document.querySelectorAll('input[name="libraries"]:checked')
+
+            const selected_libraries = []
+            libraries.forEach(checkbox => {
+                selected_libraries.push(checkbox.value)
+            })
+
+            var packages = document.querySelectorAll('input[name="packages"]:checked')
+
+            const selected_packages = []
+            packages.forEach(checkbox => {
+                selected_packages.push(checkbox.value)
+            })
+
+            var tag = document.getElementById('tag').value
+            var workdir = document.getElementById('workdir').value
+
+            // Create JSON object
+            var jsonObject = {
+                "os": base_image,
+                "tag": tag+":latest",
+                "workdir": workdir,
+                "packages": selected_packages,
+                "libraries": selected_libraries
+            }
+
+            console.log(jsonObject)
+            // alert("hello there!")
+            // print(jsonObject)
+
+            sendJsonToBackEnd(jsonObject)
+
+            // // Convert JSON object to string
+            // var jsonString = JSON.stringify(jsonObject);
+
+            // // Download JSON file
+            // var filename = "data.json";
+            // var blob = new Blob([jsonString], {type: "application/json;charset=utf-8"});
+            // saveAs(blob, filename);
+        }
+    </script>
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
+<head>
+    <title>Docker Project</title>
+</head>
+<body>
+    <h1> Docker </h1>
+</body>
+</html> -->
