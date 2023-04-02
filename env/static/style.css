@@ -1,0 +1,108 @@
+/* Docker colors */
+:root {
+  --docker-blue: #0db7ed;
+  --docker-dark-blue: #0d6efd;
+  --docker-gray: #6c757d;
+  --docker-light-gray: #f8f9fa;
+  --docker-white: #fff;
+}
+
+@font-face {
+  font-family: 'OpenSans-Medium';
+  src: url('./fonts/OpenSans/OpenSans-Medium.ttf') format('truetype');
+}
+
+
+@font-face {
+  font-family: 'OpenSans-Light';
+  src: url('./fonts/OpenSans/OpenSans-Light.ttf') format('truetype');
+}
+
+/* Body styles */
+body {
+  width: 100%;
+  background-color: var(--docker-light-gray);
+  background-image: url('./images/docker-background.png');
+  background-size: cover;
+  font-family: 'OpenSans-Light';
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  color: var(--docker-dark-blue)
+}
+
+.typewriter h1 {
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  border-right: .15em solid orange; /* The typwriter cursor */
+  white-space: nowrap; /* Keeps the content on a single line */
+  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+  letter-spacing: .15em; /* Adjust as needed */
+  animation: 
+    typing 3.5s steps(40, end),
+    blink-caret .75s step-end infinite;
+}
+
+/* The typing effect */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: orange; }
+}
+
+/* Form styles */
+form {
+  background-color: var(--docker-white);
+  font-family: 'OpenSans-Medium';
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  margin: 50px auto;
+  max-width: 600px;
+  padding: 20px;
+}
+
+form h2 {
+  color: var(--docker-dark-blue);
+  font-family: 'OpenSans-Medium';
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+form label {
+  color: var(--docker-gray);
+  font-size: 14px;
+}
+
+form input[type="radio"],
+form input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+form input[type="textbox"] {
+  border: 1px solid var(--docker-gray);
+  border-radius: 3px;
+  padding: 5px;
+  width: 100%;
+}
+
+form button[type="generateImage"] {
+  background-color: var(--docker-blue);
+  border: none;
+  border-radius: 3px;
+  color: var(--docker-white);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 10px 20px;
+  margin-top: 20px;
+  transition: background-color 0.3s;
+}
+
+form button[type="generateImage"]:hover {
+  background-color: var(--docker-dark-blue);
+}

@@ -2,18 +2,24 @@
 <html>
 <head>
     <title>My Form</title>
+    <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
     <form>
+
+        <div class="typewriter">
+            <h1>Start Creating Your Personalised Docker Image</h1>
+        </div>
+
         <h2>Base Image</h2>
-        <input type="radio" id="base-ubuntu" name="ubuntu" value="ubuntu">
+        <input type="radio" id="base-ubuntu" name="base-image" value="ubuntu">
         <label for="base-ubuntu">Ubuntu</label><br>
 
-        <input type="radio" id="base-debian" name="debian" value="debian">
+        <input type="radio" id="base-debian" name="base-image" value="debian">
         <label for="base-debian">Debian</label><br>
 
         <h2>Tag Name for Image</h2>
-        <input type="textbox" id="tag" name="tag" value="custom-name">
+        <input type="textbox" id="tag" name="tag" placeholder="Enter Custom Name for your Docker Image">
 
         <h2>Working Directory</h2>
         <input type="textbox" id="workdir" name="workdir" value="/app">
@@ -23,7 +29,10 @@
         <label for="numpy">numpy</label><br>
 
         <input type="checkbox" id="pandas" name="libraries" value="pandas">
-        <label for="option2">pandas</label><br>
+        <label for="pandas">pandas</label><br>
+
+        <h2>Enter Custom Libraries Names</h2>
+        <input type="textbox" id="libraries-names" name="libraries-names" placeholder="Enter Space Separated Library Names">
 
         <h2>Packages</h2>
         <input type="checkbox" id="neofetch" name="packages" value="neofetch">
@@ -35,8 +44,13 @@
         <input type="checkbox" id="python3-pip" name="packages" value="python3-pip">
         <label for="python3-pip">python3-pip</label><br>
 
+        <h2>Enter Custom Packages Names</h2>
+        <input type="textbox" id="package-names" name="package-names" placeholder="Enter Space Separated Package Names">
 
+        <center>
         <button type="generateImage" onclick="generateJson()">Generate Image</button>
+        </center>
+
     </form>
 
     <script>
@@ -57,23 +71,29 @@
         function generateJson() {
             // Get selected options
             var base_image = document.getElementById('base-ubuntu').checked ? 'ubuntu:latest' : 'debian:latest'
-
             var libraries = document.querySelectorAll('input[name="libraries"]:checked')
+            var libraries_names = document.getElementById('library-names').value
+            var packages = document.querySelectorAll('input[name="packages"]:checked')
+            var package_names = document.getElementById('package-names').value
+            var tag = document.getElementById('tag').value
+            var workdir = document.getElementById('workdir').value
 
             const selected_libraries = []
             libraries.forEach(checkbox => {
                 selected_libraries.push(checkbox.value)
+                libraries_names.split(" ").forEach(library => {
+                    selected_libraries.push(library)
+                })
             })
-
-            var packages = document.querySelectorAll('input[name="packages"]:checked')
 
             const selected_packages = []
             packages.forEach(checkbox => {
                 selected_packages.push(checkbox.value)
+                package_names.split(" ").forEach(package => {
+                    selected_packages.push(package)
+                })
             })
 
-            var tag = document.getElementById('tag').value
-            var workdir = document.getElementById('workdir').value
 
             // Create JSON object
             var jsonObject = {
@@ -85,28 +105,8 @@
             }
 
             console.log(jsonObject)
-            // alert("hello there!")
-            // print(jsonObject)
-
             sendJsonToBackEnd(jsonObject)
-
-            // // Convert JSON object to string
-            // var jsonString = JSON.stringify(jsonObject);
-
-            // // Download JSON file
-            // var filename = "data.json";
-            // var blob = new Blob([jsonString], {type: "application/json;charset=utf-8"});
-            // saveAs(blob, filename);
         }
     </script>
-</body>
+    </body>
 </html>
-
-<!-- <!DOCTYPE html>
-<head>
-    <title>Docker Project</title>
-</head>
-<body>
-    <h1> Docker </h1>
-</body>
-</html> -->

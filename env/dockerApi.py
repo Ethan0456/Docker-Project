@@ -39,19 +39,19 @@ def createImage(config):
 
     # Create New Dockerfile according to User Input
     # Generate Image
-    image, logs = client.images.build(
-        # path=config['path'],
-        path=".",
-        # dockerfile=config['dockerfile'],
-        dockerfile="./Dockerfile",
-        tag=config['tag'],
-        rm=True,
-    )
+    # image, logs = client.images.build(
+    #     # path=config['path'],
+    #     path=".",
+    #     # dockerfile=config['dockerfile'],
+    #     dockerfile="./Dockerfile",
+    #     tag=config['tag'],
+    #     rm=True,
+    # )
 
-    if image:
-        return writeImageToFile("new-image")
+    # if image:
+    #     return writeImageToFile("new-image")
 
-    return 1
+    # return 1
 
 
 def writeImageToFile(imageName):
