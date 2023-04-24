@@ -12,21 +12,30 @@
   src: url('./fonts/OpenSans/OpenSans-Medium.ttf') format('truetype');
 }
 
-
 @font-face {
   font-family: 'OpenSans-Light';
   src: url('./fonts/OpenSans/OpenSans-Light.ttf') format('truetype');
 }
 
-/* Body styles */
 body {
   width: 100%;
   background-color: var(--docker-light-gray);
-  background-image: url('./images/docker-background.png');
+  background-image: url('./images/docker-background-hd.png');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   background-size: cover;
   font-family: 'OpenSans-Light';
   margin: 0;
   padding: 0;
+}
+
+li {
+  border: 2px solid var(--docker-dark-blue);
+  border-radius: 16px;
+  padding: 10px;
+  margin: 3px;
+  font-size: small;
+  color: var(--docker-dark-blue)
 }
 
 h1 {
@@ -38,7 +47,6 @@ h1 {
   border-right: .15em solid orange; /* The typwriter cursor */
   white-space: nowrap; /* Keeps the content on a single line */
   margin: 0 auto; /* Gives that scrolling effect as the typing happens */
-  letter-spacing: .15em; /* Adjust as needed */
   animation: 
     typing 3.5s steps(40, end),
     blink-caret .75s step-end infinite;
@@ -57,7 +65,14 @@ h1 {
 }
 
 /* Form styles */
-form {
+#main-container {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-content: flex-end;
+  justify-content: center;
+  height: fit-content;
+  width: fit-content;
   background-color: var(--docker-white);
   font-family: 'OpenSans-Medium';
   border-radius: 5px;
@@ -67,31 +82,31 @@ form {
   padding: 20px;
 }
 
-form h2 {
+h2 {
   color: var(--docker-dark-blue);
   font-family: 'OpenSans-Medium';
   font-size: 18px;
   margin-bottom: 10px;
 }
 
-form label {
+label {
   color: var(--docker-gray);
   font-size: 14px;
 }
 
-form input[type="radio"],
-form input[type="checkbox"] {
+input[type="radio"],
+input[type="checkbox"] {
   margin-right: 5px;
 }
 
-form input[type="textbox"] {
+input[type="textbox"] {
   border: 1px solid var(--docker-gray);
   border-radius: 3px;
   padding: 5px;
   width: 100%;
 }
 
-form button[type="generateImage"] {
+button[type="generateImage"] {
   background-color: var(--docker-blue);
   border: none;
   border-radius: 3px;
@@ -103,6 +118,78 @@ form button[type="generateImage"] {
   transition: background-color 0.3s;
 }
 
-form button[type="generateImage"]:hover {
+button[type="generateImage"]:hover {
   background-color: var(--docker-dark-blue);
+}
+
+.dialog {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.dialog-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.progress-circle {
+  display: inline-block;
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.progress-text {
+  display: block;
+  margin-top: 30px;
+  font-size: 16px;
+  color: #fff;
+}
+
+.progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.progress-circle .progress-background {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 8;
+  stroke-dasharray: 283;
+  stroke-dashoffset: 0;
+}
+
+.progress-circle .progress-bar {
+  fill: none;
+  stroke: #00c853;
+  stroke-width: 8;
+  stroke-dasharray: 283;
+  stroke-dashoffset: 283;
+  stroke-linecap: round;
+  transform-origin: center center;
+  transform: rotate(-90deg);
+  transition: stroke-dashoffset 0.8s ease;
+}
+
+.progress-circle.active .progress-bar {
+  stroke-dashoffset: 0;
+}
+
+button {
+  display: block;
+  margin: 50px auto;
+  padding: 10px 20px;
+  font-size: 16px;
 }

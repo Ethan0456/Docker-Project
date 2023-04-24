@@ -13,6 +13,7 @@ def createDockerFile(config):
         writeToDockerFile(dockerfile,f"FROM {config['os']}")
         writeToDockerFile(dockerfile,f"WORKDIR {config['workdir'] if config['workdir'] else '/app'}")
         writeToDockerFile(dockerfile,f"RUN apt update")
+        writeToDockerFile(dockerfile,f"EXPOSE {config['exposeport']}")
 
         # writeToDockerFile(dockerfile,f"EXPOSE {[i for i in config['ports']]}")
         writeToDockerFile(dockerfile,f"")

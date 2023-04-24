@@ -3,110 +3,76 @@
 <head>
     <title>My Form</title>
     <link rel="stylesheet" href="../static/style.css">
+    <script type="module" src="../static/js/scripts.js"></script>
+    <script type="text/javascript" src="../static/js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.min.js"></script>
+    <script src="{{url_for('static', filename='somejavascriptfile.js')}}"></script>
 </head>
 <body>
-    <form>
+    <center>
+    <div id="main-container">
 
         <div class="typewriter">
-            <h1>Start Creating Your Personalised Docker Image</h1>
+            <h1>Create Personalised Docker Image</h1>
         </div>
 
         <h2>Base Image</h2>
         <input type="radio" id="base-ubuntu" name="base-image" value="ubuntu">
-        <label for="base-ubuntu">Ubuntu</label><br>
-
+        <label for="base-ubuntu">ubuntu</label><br>
+        
         <input type="radio" id="base-debian" name="base-image" value="debian">
-        <label for="base-debian">Debian</label><br>
-
+        <label for="base-debian">debian</label><br>
+        
         <h2>Tag Name for Image</h2>
-        <input type="textbox" id="tag" name="tag" placeholder="Enter Custom Name for your Docker Image">
-
+        <input type="textbox" id="tag" name="tag" placeholder="enter custom name for your docker image">
+        
         <h2>Working Directory</h2>
         <input type="textbox" id="workdir" name="workdir" value="/app">
-
-        <h2>Libraries</h2>
-        <input type="checkbox" id="numpy" name="libraries" value="numpy">
-        <label for="numpy">numpy</label><br>
-
-        <input type="checkbox" id="pandas" name="libraries" value="pandas">
-        <label for="pandas">pandas</label><br>
-
-        <h2>Enter Custom Libraries Names</h2>
-        <input type="textbox" id="libraries-names" name="libraries-names" placeholder="Enter Space Separated Library Names">
-
-        <h2>Packages</h2>
-        <input type="checkbox" id="neofetch" name="packages" value="neofetch">
-        <label for="neofetch">neofetch</label><br>
-
-        <input type="checkbox" id="python3" name="packages" value="python3">
-        <label for="python3">python3</label><br>
-
-        <input type="checkbox" id="python3-pip" name="packages" value="python3-pip">
-        <label for="python3-pip">python3-pip</label><br>
+        
+        <h2>Expose Port</h2>
+        <input type="textbox" id="exposeport" name="exposeport" value="8080">
 
         <h2>Enter Custom Packages Names</h2>
+
+        <div id="selected-packages-box" style="display: none;">
+            <p>Selected Packages</p>
+            <ul id="selected-packages"></ul>
+        </div>
+
         <input type="textbox" id="package-names" name="package-names" placeholder="Enter Space Separated Package Names">
 
+        <div id="package-suggestion-box" style="display: none;">
+            <ul id="package-suggestions"></ul>
+        </div>
+
+        <h2>Enter Custom Libraries Names</h2>
+        <div id="selected-libraries-box" style="display: none;">
+            <ul id="selected-libraries"></ul>
+        </div>
+
+        <input type="textbox" id="library-names" name="library-names" placeholder="Enter Space Separated Library Names">
+        
+        <div id="library-suggestion-box" style="display: none;">
+            <p>Selected Libraries</p>
+            <ul id="library-suggestions"></ul>
+        </div>
+        
         <center>
-        <button type="generateImage" onclick="generateJson()">Generate Image</button>
+            <button id="processing-btn" type="generateImage" onclick="generateJson()">Generate Image</button>
         </center>
 
-    </form>
-
-    <script>
-
-        function sendJsonToBackEnd(data) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/process_json', true);
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var response = JSON.parse(xhr.responseText);
-                    alert(response.message);
-                }
-            };
-            xhr.send(JSON.stringify(data));
-        }
-
-        function generateJson() {
-            // Get selected options
-            var base_image = document.getElementById('base-ubuntu').checked ? 'ubuntu:latest' : 'debian:latest'
-            var libraries = document.querySelectorAll('input[name="libraries"]:checked')
-            var libraries_names = document.getElementById('library-names').value
-            var packages = document.querySelectorAll('input[name="packages"]:checked')
-            var package_names = document.getElementById('package-names').value
-            var tag = document.getElementById('tag').value
-            var workdir = document.getElementById('workdir').value
-
-            const selected_libraries = []
-            libraries.forEach(checkbox => {
-                selected_libraries.push(checkbox.value)
-                libraries_names.split(" ").forEach(library => {
-                    selected_libraries.push(library)
-                })
-            })
-
-            const selected_packages = []
-            packages.forEach(checkbox => {
-                selected_packages.push(checkbox.value)
-                package_names.split(" ").forEach(package => {
-                    selected_packages.push(package)
-                })
-            })
-
-
-            // Create JSON object
-            var jsonObject = {
-                "os": base_image,
-                "tag": tag+":latest",
-                "workdir": workdir,
-                "packages": selected_packages,
-                "libraries": selected_libraries
-            }
-
-            console.log(jsonObject)
-            sendJsonToBackEnd(jsonObject)
-        }
-    </script>
+    </div>
+    </center>
+    <div id="processing-dialog" class="dialog">
+        <div class="dialog-content">
+          <div class="progress-circle">
+            <span class="progress-text">Processing</span>
+            <svg class="progress" viewBox="0 0 100 100">
+              <circle class="progress-background" cx="50" cy="50" r="45"></circle>
+              <circle class="progress-bar" cx="50" cy="50" r="45"></circle>
+            </svg>
+          </div>
+        </div>
+      </div>
     </body>
 </html>
