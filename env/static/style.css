@@ -20,7 +20,7 @@
 body {
   width: 100%;
   background-color: var(--docker-light-gray);
-  background-image: url('./images/docker-background-hd.png');
+  background-image: url('../static/images/docker-background-hd.png');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
@@ -119,6 +119,22 @@ button[type="generateImage"] {
 }
 
 button[type="generateImage"]:hover {
+  background-color: var(--docker-dark-blue);
+}
+
+button[type="downloadBtn"] {
+  background-color: var(--docker-blue);
+  border: none;
+  border-radius: 3px;
+  color: var(--docker-white);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 10px 20px;
+  margin-top: 20px;
+  transition: background-color 0.3s;
+}
+
+button[type="downloadBtn"]:hover {
   background-color: var(--docker-dark-blue);
 }
 
