@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, send_file, jsonify
 import dockerApi
 from flask_socketio import SocketIO
 from logging import FileHandler,WARNING
-import time
 import os
 
 app = Flask(__name__, static_folder='./static', template_folder='./templates', )
@@ -56,18 +55,5 @@ def download_file(filename):
     path = '../' + filename
     return send_file(path, mimetype='application/tar', download_name = filename+'.tar')
 
-@socketio.on('connect')
-def on_connect():
-    print('Client connected')
-
-@socketio.on('disconnect')
-def on_disconnect():
-    print('Client disconnected')
-
-def send_data():
-    data = 'Hello, world!'
-    socketio.emit('data', data)
-
 if __name__=="__main__":
-    socketio.run(app)
-    app.run()
+    app.run(host = "0.0.0.0", port = 5000)
