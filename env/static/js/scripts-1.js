@@ -143,6 +143,7 @@ function checkFileStatus(fileId, checkInterval) {
         $('#processing-dialog').hide();
         $('#download-dialog').show();
         // Enable the download button
+        $('#download-text').text('Here is your Personalised Docker Image, \n To install this image use command: \n docker load -i /path/to/tarfile');
         $('#download-btn').prop('disabled', false);
         // Update the download link to point to the generated file
         // $('#download-btn').attr('href', response.file_url);

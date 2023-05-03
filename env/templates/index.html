@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My Form</title>
+    <title>Docker</title>
     <link rel="stylesheet" href="../static/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.min.js"></script>
 </head>
@@ -69,10 +69,11 @@
                     <circle class="progress-bar" cx="50" cy="50" r="45"></circle>
                 </svg>
             </div>
-            <span class="progress-text">Processing</span>
+            <span class="progress-text">Wait till your Image is being generated...</span>
         </div>
     </div>
     <div id="download-dialog" class="dialog">
+        <span id="download-text" class="download-text">Here is your Personalised Docker Image Tar file.</span>
         <div class="dialog-content">
             <button id="download-btn" type="downloadBtn" onclick="downloadFile()">Download</button>
         </div>

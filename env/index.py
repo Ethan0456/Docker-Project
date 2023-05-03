@@ -1,18 +1,19 @@
 from flask import Flask, render_template, request, send_file, jsonify
 import dockerApi
-from flask_socketio import SocketIO
 from logging import FileHandler,WARNING
 import os
 
 app = Flask(__name__, static_folder='./static', template_folder='./templates', )
-socketio = SocketIO(app)
+app.config.update(
+    TEMPLATE_AUTO_RELOAD=True
+)
 
 file_handler = FileHandler('errorlog.txt')
 file_handler.setLevel(WARNING)
 
 @app.route('/')
 def hello_world():
-    return render_template("index.html", socketio=socketio)
+    return render_template("index.html")
 
 @app.route('/process_json', methods=['POST'])
 def process_json():
@@ -31,7 +32,7 @@ def file_status():
         # If the file is complete, return the URL of the generated file
         return jsonify({
             'status': 'complete',
-            'file_url': os.path.abspath(f'../{file_id}')
+            'file_url': os.path.abspath(f"../{file_id}")
         })
     else:
         # If the file is not yet complete, return the status
@@ -56,4 +57,4 @@ def download_file(filename):
     return send_file(path, mimetype='application/tar', download_name = filename+'.tar')
 
 if __name__=="__main__":
-    app.run(host = "0.0.0.0", port = 5000)
+    app.run()
