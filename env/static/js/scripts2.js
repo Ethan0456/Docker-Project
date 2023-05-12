@@ -11,6 +11,9 @@ packageNames.addEventListener('input', () => {
   if (packageNames.value.length > 0) {
     const input = packageNames.value.toLowerCase();
     const matchingSuggestions = packages_list.filter(suggestion => suggestion.toLowerCase().startsWith(input));
+    matchingSuggestions = matchingSuggestions.slice(0,5);
+    console.log("Well this is an update")
+    console.log("Fuck This Shit, I don't like Web Dev 😭")
 
     if (matchingSuggestions.length > 0) {
       packageSuggestionList.innerHTML = '';

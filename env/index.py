@@ -4,12 +4,22 @@ from logging import FileHandler,WARNING
 import os
 
 app = Flask(__name__, static_folder='./static', template_folder='./templates', )
-app.config.update(
-    TEMPLATE_AUTO_RELOAD=True
-)
+# app.config.update(
+#     TEMPLATE_AUTO_RELOAD=True
+# )
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 file_handler = FileHandler('errorlog.txt')
 file_handler.setLevel(WARNING)
+
+# No caching at all for API endpoints.
+@app.after_request
+def add_header(response):
+# response.cache_control.no_store = True
+    response. headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0'
+    response. headers ['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '-1'
+    return response
 
 @app.route('/')
 def hello_world():
